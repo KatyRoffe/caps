@@ -1,15 +1,16 @@
 'use strict';
 
-const vendorPackage = require('./events.js');
+const client = require('socket.io-client');
 const faker = require('faker');
+const socket = client('http://localhost:3030');
 
-vendorPackage.on('delivered', (payload) => {
+socket.emit('delivered', (payload) => {
   console.log('Delivery successful.', payload);
 });
 
-vendorPackage.on('order', () => {
+socket.emit('order', () => {
 
-  vendorPackage.emit('pickup', {
+  socket.emit('pickup', {
     event: 'pickup',
     time: faker.date.soon(),
     payload: {
@@ -21,7 +22,7 @@ vendorPackage.on('order', () => {
   });
 });
 
-vendorPackage.emit('order', {
+socket.emit('order', {
   store: faker.company.companyName(),
   orderId: faker.datatype.uuid(),
   customer: faker.name.findName(),
