@@ -2,15 +2,15 @@
 
 // const eventEmitter = require('../index.js');
 const client = require('socket.io-client');
-const socket = client('http://localhost:3030');
+const caps = client('http://localhost:3030');
 
-socket.on('pickup', (payload) => {
-  socket.on(payload, 'pickup')
+caps.on('pickup', (payload) => {
+  caps.on(payload, 'pickup')
   console.log(`${payload.orderId} has been picked up`)
 
-  socket.on(payload, 'in-transit')
+  caps.on(payload, 'in-transit')
   console.log(`${payload.orderId} is en route.`)
 
-  socket.on(payload, 'delivered')
+  caps.on(payload, 'delivered')
   console.log(`${payload.orderId} has been delivered.`)
 });

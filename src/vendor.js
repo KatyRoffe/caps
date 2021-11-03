@@ -2,15 +2,15 @@
 
 const client = require('socket.io-client');
 const faker = require('faker');
-const socket = client('http://localhost:3030');
+const caps = client('http://localhost:3030');
 
-socket.emit('delivered', (payload) => {
+caps.emit('delivered', (payload) => {
   console.log('Delivery successful.', payload);
 });
 
-socket.emit('order', () => {
+caps.emit('order', () => {
 
-  socket.emit('pickup', {
+  caps.emit('pickup', {
     event: 'pickup',
     time: faker.date.soon(),
     payload: {
@@ -22,7 +22,7 @@ socket.emit('order', () => {
   });
 });
 
-socket.emit('order', {
+caps.emit('order', {
   store: faker.company.companyName(),
   orderId: faker.datatype.uuid(),
   customer: faker.name.findName(),
