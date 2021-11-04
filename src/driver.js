@@ -1,14 +1,16 @@
 'use strict';
 
-const eventEmitter = require('../index.js');
+// const eventEmitter = require('../index.js');
+const client = require('socket.io-client');
+const caps = client('http://localhost:3030');
 
-eventEmitter.on('pickup', (payload) => {
-  eventEmitter.emit(payload, 'pickup')
+caps.on('pickup', (payload) => {
+  caps.on(payload, 'pickup')
   console.log(`${payload.orderId} has been picked up`)
 
-  eventEmitter.emit(payload, 'in-transit')
+  caps.on(payload, 'in-transit')
   console.log(`${payload.orderId} is en route.`)
 
-  eventEmitter.emit(payload, 'delivered')
+  caps.on(payload, 'delivered')
   console.log(`${payload.orderId} has been delivered.`)
 });
